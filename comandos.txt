@@ -1,0 +1,57 @@
+pyenv update
+pyenv install 3.12:latest
+pyenv versions
+
+pipx install poetry
+
+poetry new fast_zero
+
+pyenv local 3.12.3
+
+poetry install 
+poetry add fastapi
+
+poetry shell
+
+fastapi dev fast_zero/app.py
+
+poetry add --group dev pytest pytest-cov taskipy ruff httpx
+
+########################################
+#texto pyproject.toml
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = '-p no:warnings'
+
+[tool.taskipy.tasks]
+lint = 'ruff check . && ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
+run = 'fastapi dev fast_zero/app.py'
+pre_test = 'task lint'
+test = 'pytest -s -x --cov=fast_zero -vv'
+post_test = 'coverage html'
+
+########################################
+
+task lint
+task format
+task run
+task pre_test
+task test
+task post_test
+
+pipx install ignr
+ignr -p python > .gitignore
