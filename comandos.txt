@@ -55,3 +55,12 @@ task post_test
 
 pipx install ignr
 ignr -p python > .gitignore
+
+poetry add sqlalchemy
+poetry add pydantic-settings
+
+poetry add alembic
+alembic init migrations
+
+alembic revision --autogenerate -m "create users table"
+alembic upgrade head
