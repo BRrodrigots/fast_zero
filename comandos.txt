@@ -69,3 +69,6 @@ poetry add pyjwt "pwdlib[argon2]"
 poetry add python-multipart
 poetry add --group dev factory-boy
 poetry add --group dev freezegun
+
+alembic revision --autogenerate -m "create todos table"
+alembic upgrade head
