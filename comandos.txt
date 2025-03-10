@@ -72,3 +72,15 @@ poetry add --group dev freezegun
 
 alembic revision --autogenerate -m "create todos table"
 alembic upgrade head
+
+
+############
+poetry add "psycopg[binary]"
+
+docker run -d --network=host --name fastzeroapp -p 8000:8000 fast_zero:latest
+
+docker run -d --name app_database -e POSTGRES_USER=app_user -e POSTGRES_DB=app_db -e POSTGRES_PASSWORD=app_password -v pgdata:/var/lib/postgresql/data -p 5431:5432 postgres
+
+docker exec -it fastzeroapp poetry run alembic upgrade head
+
+poetry add --group dev testcontainers
